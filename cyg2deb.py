@@ -1,33 +1,5 @@
 #!/usr/bin/python3
 
-# http://ftp-stud.hs-esslingen.de/pub/Mirrors/sources.redhat.com/cygwin/x86_64/
-
-# curl -O ftp://ftp.cygwin.com/pub/cygwin/x86/setup.ini
-# curl -O ftp://ftp.cygwin.com/pub/cygwin/x86_64/setup.ini
-# wget ftp://ftp.cygwin.com/pub/cygwin/x86_64/setup.ini
-# wget ftp://ftp.cygwin.com/pub/cygwin/x86_64/setup.xz
-# xz -d setup.xz
-# mv setup setup.ini
-
-#~ release: cygwin
-#~ arch: x86_64
-#~ setup-timestamp: 1475435599
-#~ setup-version: 2.876
-
-#~ sdesc: "Zlib for Win64 toolchain"
-#~ ldesc: "This package does NOT contain cygwin binaries.  Instead, it
-#~ contains msvcrt-linked binaries (aka 'mingw').  It is for use with the
-#~ mingw64-x86_64-gcc cross compiler, and installs into the
-#~ /usr/x86_64-w64-mingw32/sys-root/mingw/{lib,include} directories."
-#~ category: Devel
-#~ version: 1.2.8-4
-#~ install: x86_64/release/mingw64-x86_64-zlib/mingw64-x86_64-zlib-1.2.8-4.tar.xz 105120 9e2689e86723680243da505487589f7557ddf49151411ac58eed176df15002992028eaa19cc0d4c8f6655c200b44fe8155a73a84022423dad6a79a1fc1b03a59
-#~ source: x86_64/release/mingw64-x86_64-zlib/mingw64-x86_64-zlib-1.2.8-4-src.tar.xz 574400 909f1792eb9462aeaee997f233f9ce2c1c88b5db25219d37f8826f82068bf82a0800c9d070f0c3b4ea68d07ffde0fdeed59a1f80591c2a9d772d4b52533f9899
-#~ [prev]
-#~ version: 1.2.8-3
-#~ install: x86_64/release/mingw64-x86_64-zlib/mingw64-x86_64-zlib-1.2.8-3.tar.xz 105132 76023e0876c81399e3d19a6a93e44d3dc53734eb0e75736ad32e30851450a4d31fd537cbfc504bf14e22944fc2fda2855d6db929e64585c80c2368c6f22d82e7
-#~ source: x86_64/release/mingw64-x86_64-zlib/mingw64-x86_64-zlib-1.2.8-3-src.tar.xz 573192 20637095faf8e48989369457d9db260300c82d086fc2cfe0581430004bb48be65fc64fc5a50a3377ba201580eb9b8c47dacc1974d59a073773a4a786df355fe7
-
 import http.client
 import os
 import re
