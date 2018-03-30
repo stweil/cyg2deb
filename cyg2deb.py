@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import glob
 import http.client
 import os
 import re
@@ -27,8 +28,11 @@ else:
 
 CACHEDIR = 'cache' + '/' + HOSTARCH
 
+# Cygwin package handling.
 class Package:
     def __init__(self, name):
+        # Initialise data for the package.
+        # Sets name and resets all other values.
         self.name = name
         self.sdesc = ''
         self.ldesc = ''
@@ -42,15 +46,30 @@ class Package:
         self.source_size = 0
         self.source_sha512sum = ''
         self.message = ''
+        self.arch = 'undefined'
 
     def __str__(self):
+        # String which describes the package.
         return self.name + ' ' + self.version + ' (' + self.sdesc + ')'
 
     def get(self):
+        # Get package file if it is missing in the local cache.
         # TODO: check sha512sum.
-        filename = self.name.lower().replace('_', '-') + '_' + self.version + '-1_all.deb'
-        print("get package, ", filename)
-        if not os.path.exists(filename):
+        name = self.name.lower().replace('_', '-')
+        version = self.version.replace('_', '-')
+        filename = name + '_' + version + '-1_' + self.arch + '.deb'
+        if package.arch != 'all':
+            print("skip package,", filename, '(wrong architecture)')
+        elif package.category == '_obsolete':
+            print("skip package,", filename, '(obsolete)')
+        elif os.path.exists(filename):
+            print("skip package,", filename, '(cached)')
+        else:
+            # Package file missing in cache, so get it.
+            package.printinfo()
+            print("")
+            print("make package,", filename)
+            print("")
             filename = CACHEDIR + '/' + self.install
             if not os.path.exists(filename):
                 os.makedirs(os.path.dirname(filename), 0o777, True)
@@ -65,7 +84,8 @@ class Package:
             tmpdir = CACHEDIR + '/tmp'
             if os.path.exists(tmpdir):
                 shutil.rmtree(tmpdir)
-            try:
+            #~ try:
+            if 1:
                 f = tarfile.open(filename)
                 f.extractall(tmpdir)
                 f.close()
@@ -81,16 +101,14 @@ class Package:
                             os.symlink(srcfile, dstfile)
                 filename = CACHEDIR + '/' + self.name + '.tar'
                 f = tarfile.open(filename, 'w')
-                try:
-                    f.add(tmpdir, '')
-                except:
-                    print('no files')
+                for dir in glob.glob(tmpdir + '/*'):
+                    f.add(dir, arcname = os.path.basename(dir))
                 f.close()
-                #~ print('/usr/bin/fakeroot', 'alien', 'alien', '--to-deb', '--keep-version', '--description=' + self.sdesc, '--version=' + self.version, '--target=all', filename)
-                os.spawnlp(os.P_WAIT, '/usr/bin/fakeroot', 'fakeroot', '/usr/bin/alien', '--to-deb', '--keep-version', '--description=' + self.sdesc, '--version=' + self.version, '--target=all', filename)
+                #~ print('/usr/bin/fakeroot', '/usr/bin/alien', '--to-deb', '--keep-version', '--description="' + self.sdesc + '"', '--version=' + version, '--target=all', filename)
+                os.spawnlp(os.P_WAIT, '/usr/bin/fakeroot', 'fakeroot', '/usr/bin/alien', '--to-deb', '--keep-version', '--description=' + self.sdesc, '--version=' + version, '--target=all', filename)
                 os.remove(filename)
-            except:
-                print('failed')
+            #~ except:
+                #~ print('failed')
 
     def printinfo(self):
         # Print some information for package.
@@ -162,7 +180,6 @@ for line in f:
 
     if not line:
         if package:
-            package.printinfo()
             package.get()
         do_ldesc = False
         do_message = False
@@ -222,6 +239,11 @@ for line in f:
         package.install = m.group(1)
         package.install_size = m.group(2)
         package.install_sha512sum = m.group(3)
+        m = re.search('^([^/]*)', package.install)
+        if m:
+            package.arch = m.group(1)
+            if package.arch == 'noarch':
+                package.arch = 'all'
         continue
 
     m = re.search('^source: (.*) (.*) (.*)', line)
@@ -241,7 +263,7 @@ for line in f:
             do_message = True
         continue
 
-    print(package, " ???")
-    print(line)
+    #~ print(package, " ???")
+    #~ print(line)
 
 f.close()
