@@ -1,4 +1,4 @@
-# cyg2deb
+# cyg2deb – convert Cygwin packages to Debian packages
 
 ## What is the purpose of this software?
 This software is used to convert [Cygwin](https://cygwin.com/) packages to [Debian](https://www.debian.org/) packages.
@@ -56,6 +56,9 @@ Here is a typical use case running under Debian (a UTF-8 environment is required
 That use case first gets the complete Cygwin package list `setup.ini`.
 Then it looks for all packages named mingw64-x86_64-*, downloads them,
 unpacks them and repacks them into Debian packages for 64 bit cross compilation.
+Deprecated packages are skipped automatically.
+Packages which are not useful for cross compilation because they only work on
+Windows are skipped, too.
 
 To get packages for 32 bit cross compilation (mingw64-i686-*),
 just run `python3 cyg2deb.py i686`.
