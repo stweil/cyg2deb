@@ -89,14 +89,35 @@ class Package:
                 f = tarfile.open(filename)
                 f.extractall(tmpdir)
                 f.close()
-                srcdir = tmpdir + '/usr/' + ARCH + '/sys-root/mingw/lib/pkgconfig'
+                archdir = '/usr/' + ARCH + '-w64-mingw32'
+                srcdir = tmpdir + archdir + '/sys-root/mingw/lib/pkgconfig'
                 if os.path.exists(srcdir):
-                    dstdir = tmpdir + '/usr/' + ARCH + '/lib/pkgconfig'
-                    print(dstdir)
+                    # Package uses pkg-config.
+                    # Make the *.pc file(s) available at the right location.
+                    dstdir = tmpdir + archdir + '/lib/pkgconfig'
                     os.makedirs(dstdir)
-                    for path, dirs,  files in os.walk(srcdir):
+                    for path, dirs, files in os.walk(srcdir):
                         for filename in files:
                             srcfile = os.path.join('../../sys-root/mingw/lib/pkgconfig', filename)
+                            dstfile = os.path.join(dstdir, filename)
+                            os.symlink(srcfile, dstfile)
+                else:
+                    # Package does not use pkg-config.
+                    # Make the *.h and *.a file(s) available at the right location.
+                    dstdir = tmpdir + archdir + '/include'
+                    os.makedirs(dstdir)
+                    srcdir = tmpdir + archdir + '/sys-root/mingw/include'
+                    for path, dirs, files in os.walk(srcdir):
+                        for filename in files:
+                            srcfile = os.path.join('../sys-root/mingw/include', filename)
+                            dstfile = os.path.join(dstdir, filename)
+                            os.symlink(srcfile, dstfile)
+                    dstdir = tmpdir + archdir + '/lib'
+                    os.makedirs(dstdir)
+                    srcdir = tmpdir + archdir + '/sys-root/mingw/lib'
+                    for path, dirs, files in os.walk(srcdir):
+                        for filename in files:
+                            srcfile = os.path.join('../sys-root/mingw/lib', filename)
                             dstfile = os.path.join(dstdir, filename)
                             os.symlink(srcfile, dstfile)
                 filename = CACHEDIR + '/' + self.name + '.tar'
