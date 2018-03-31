@@ -24,33 +24,30 @@ Here is a typical use case running under Debian (a UTF-8 environment is required
     Requires:
     Description: ATSC A/52 (AC-3) decoder library for Win64 toolchain
     Install:     noarch/release/mingw64-x86_64-a52dec/mingw64-x86_64-a52dec-0.7.4-2.tar.xz (47832)
-    get package,  mingw64-x86-64-a52dec_0.7.4-2-1_all.deb
-    tar: Removing leading `/' from member names
-    tar: Removing leading `/' from member names
-    tar: Removing leading `/' from member names
+
+    make package, mingw64-x86-64-a52dec_0.7.4-2-1_all.deb
+
     mingw64-x86-64-a52dec_0.7.4-2-1_all.deb generated
-    mingw64-x86_64-aalib 1.4rc5-2 (ASCII art library for Win64 toolchain)  ???
-    depends2: bash, mingw64-x86_64-ncurses
     Name:        mingw64-x86_64-aalib
     Version:     1.4rc5-2
     Category:    Devel
     Requires:    bash mingw64-x86_64-ncurses
     Description: ASCII art library for Win64 toolchain
     Install:     noarch/release/mingw64-x86_64-aalib/mingw64-x86_64-aalib-1.4rc5-2.tar.xz (66348)
-    get package,  mingw64-x86-64-aalib_1.4rc5-2-1_all.deb
-    tar: Removing leading `/' from member names
-    tar: Removing leading `/' from member names
-    tar: Removing leading `/' from member names
+
+    make package, mingw64-x86-64-aalib_1.4rc5-2-1_all.deb
+
     mingw64-x86-64-aalib_1.4rc5-2-1_all.deb generated
-    mingw64-x86_64-adwaita-icon-theme 3.26.1-1 (GNOME desktop icon theme for Win64 toolchain)  ???
-    depends2: mingw64-x86_64-hicolor-icon-theme, mingw64-x86_64-pkg-config
     Name:        mingw64-x86_64-adwaita-icon-theme
     Version:     3.26.1-1
     Category:    Devel
     Requires:    mingw64-x86_64-hicolor-icon-theme mingw64-x86_64-pkg-config
     Description: GNOME desktop icon theme for Win64 toolchain
     Install:     noarch/release/mingw64-x86_64-adwaita-icon-theme/mingw64-x86_64-adwaita-icon-theme-3.26.1-1.tar.xz (13172464)
-    get package,  mingw64-x86-64-adwaita-icon-theme_3.26.1-1-1_all.deb
+
+    make package, mingw64-x86-64-adwaita-icon-theme_3.26.1-1-1_all.deb
+
+    mingw64-x86-64-adwaita-icon-theme_3.26.1-1-1_all.deb generated
     [...]
 
 That use case first gets the complete Cygwin package list `setup.ini`.
