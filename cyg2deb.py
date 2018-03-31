@@ -216,11 +216,10 @@ for line in f:
         do_skip = True
         continue
 
-    m = re.search('^@ (' + PATTERN + ')', line)
+    m = re.search('^@ (' + PATTERN + ')$', line)
     if m:
         name = m.group(1)
-        if name == 'mingw64-x86_64-zlib' or True:
-            package = Package(name)
+        package = Package(name)
         continue
     elif not package:
         continue
