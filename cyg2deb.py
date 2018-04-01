@@ -147,20 +147,28 @@ class Package:
             os.makedirs(dstdir)
             lf = "\n"
             f = open(dstdir + '/control', 'w', encoding='utf-8')
-            f.write('Package: ' + self.name + lf)
-            f.write('Version: ' + self.version + lf)
+            f.write('Package: ' + name + lf)
+            f.write('Version: ' + version + lf)
             f.write('Architecture: all\n')
             if EMAIL:
                 f.write('Maintainer: ' + EMAIL + lf)
             f.write('Installed-Size: ' + kbytes + lf)
             f.write('Origin: Cygwin\n')
             depends = self.requires
+            # Map some Cygwin package names to Debian package names.
             depends = depends.replace('mingw64-i686-gcc-core',
                                       'mingw-w64-i686-dev')
-            depends = depends.replace('mingw64-i686-gcc-g++', '')
+            depends = depends.replace('mingw64-i686-gcc-g++',
+                                      'g++-mingw-w64-i686')
             depends = depends.replace('mingw64-i686-pkg-config',
                                       'pkg-config-mingw-w64-i686')
-            depends = depends.replace('  ', ',')
+            depends = depends.replace('mingw64-x86_64-gcc-core',
+                                      'mingw-w64-x86-64-dev')
+            depends = depends.replace('mingw64-x86_64-gcc-g++',
+                                      'g++-mingw-w64-x86-64')
+            depends = depends.replace('mingw64-x86_64-pkg-config',
+                                      'pkg-config-mingw-w64-x86-64')
+            depends = depends.replace('_', '-')
             depends = depends.replace(' ', ',')
             f.write('Depends: ' + depends + lf)
             f.write('Section: cygwin\n')
