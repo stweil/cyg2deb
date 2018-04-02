@@ -160,16 +160,24 @@ class Package:
             # Map some Cygwin package names to Debian package names.
             depends = depends.replace('mingw64-i686-gcc-core',
                                       'mingw-w64-i686-dev')
+            depends = depends.replace('mingw64-i686-gcc-fortran',
+                                      'gfortran-mingw-w64-i686')
             depends = depends.replace('mingw64-i686-gcc-g++',
                                       'g++-mingw-w64-i686')
             depends = depends.replace('mingw64-i686-pkg-config',
                                       'pkg-config-mingw-w64-i686')
+            depends = depends.replace('mingw64-i686-runtime',
+                                      'mingw-w64-i686-dev')
             depends = depends.replace('mingw64-x86_64-gcc-core',
                                       'mingw-w64-x86-64-dev')
+            depends = depends.replace('mingw64-x86_64-gcc-fortran',
+                                      'gfortran-mingw-w64-x86-64')
             depends = depends.replace('mingw64-x86_64-gcc-g++',
                                       'g++-mingw-w64-x86-64')
             depends = depends.replace('mingw64-x86_64-pkg-config',
                                       'pkg-config-mingw-w64-x86-64')
+            depends = depends.replace('mingw64-x86_64-runtime',
+                                      'mingw-w64-x86-64-dev')
             depends = depends.replace('_', '-')
             depends = depends.replace(' ', ',')
             f.write('Depends: ' + depends + lf)
