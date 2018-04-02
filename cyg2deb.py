@@ -127,11 +127,13 @@ class Package:
                     os.symlink(srcfile, dstfile)
                 dstdir = tmpdir + archdir + '/lib'
                 os.makedirs(dstdir)
-                srcdir = tmpdir + archdir + '/sys-root/mingw/lib'
-                for path, dirs, files in os.walk(srcdir):
+                libsrcdir = tmpdir + archdir + '/sys-root/mingw/lib'
+                for path, dirs, files in os.walk(libsrcdir):
                     for filename in files:
-                        srcfile = '../sys-root/mingw/lib/' + filename
+                        dstdir = path.replace(libsrcdir, tmpdir + archdir + '/lib')
                         dstfile = os.path.join(dstdir, filename)
+                        srcfile = os.path.join(os.path.relpath(path, dstdir), filename)
+                        os.makedirs(dstdir, exist_ok=True)
                         os.symlink(srcfile, dstfile)
 
             kbytes = 0
