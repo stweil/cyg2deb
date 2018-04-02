@@ -180,6 +180,7 @@ class Package:
             f.close()
 
             # print('dpkg', '-b', tmpdir, packagename)
+            sys.stdout.flush()
             os.spawnlp(os.P_WAIT, 'dpkg', 'dpkg', '-b', tmpdir, packagename)
 
     def printinfo(self):
