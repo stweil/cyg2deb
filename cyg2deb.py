@@ -176,6 +176,8 @@ class Package:
             f.write('Homepage: https://github.com/stweil/cyg2deb/\n')
             f.write('Description: ' + self.sdesc + lf)
             for line in self.ldesc:
+                if not line:
+                    line = '.'
                 f.write(' ' + line + lf)
             f.close()
 
