@@ -117,24 +117,16 @@ class Package:
             else:
                 # Package does not use pkg-config.
                 # Make *.h and *.a file(s) available at the right location.
-                dstdir = tmpdir + archdir + '/include'
-                os.makedirs(dstdir)
-                srcdir = tmpdir + archdir + '/sys-root/mingw/include'
-                for srcfile in glob.glob(os.path.join(srcdir, '*')):
-                    filename = srcfile.replace(srcdir + '/', '')
-                    srcfile = '../sys-root/mingw/include/' + filename
-                    dstfile = os.path.join(dstdir, filename)
-                    os.symlink(srcfile, dstfile)
-                dstdir = tmpdir + archdir + '/lib'
-                os.makedirs(dstdir)
-                libsrcdir = tmpdir + archdir + '/sys-root/mingw/lib'
-                for path, dirs, files in os.walk(libsrcdir):
-                    for filename in files:
-                        dstdir = path.replace(libsrcdir, tmpdir + archdir + '/lib')
-                        dstfile = os.path.join(dstdir, filename)
-                        srcfile = os.path.join(os.path.relpath(path, dstdir), filename)
-                        os.makedirs(dstdir, exist_ok=True)
-                        os.symlink(srcfile, dstfile)
+                for dir in ['include', 'lib']:
+                    dstdir = os.path.join(tmpdir + archdir, dir)
+                    libsrcdir = os.path.join(tmpdir + archdir, 'sys-root/mingw', dir)
+                    for path, dirs, files in os.walk(libsrcdir):
+                        for filename in files:
+                            dstdir = path.replace(libsrcdir, os.path.join(tmpdir + archdir, dir))
+                            dstfile = os.path.join(dstdir, filename)
+                            srcfile = os.path.join(os.path.relpath(path, dstdir), filename)
+                            os.makedirs(dstdir, exist_ok=True)
+                            os.symlink(srcfile, dstfile)
 
             kbytes = 0
             for path, dirs, files in os.walk(tmpdir):
