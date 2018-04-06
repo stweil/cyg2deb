@@ -51,11 +51,15 @@ Here is a typical use case running under Debian (a UTF-8 environment is required
     [...]
 
 That use case first gets the complete Cygwin package list `setup.ini`.
-Then it looks for all packages named mingw64-x86_64-*, downloads them,
+Then it looks for all packages with names starting with mingw64-i686- or mingw64-x86_64-,
+downloads them,
 unpacks them and repacks them into Debian packages for 64 bit cross compilation.
 Deprecated packages are skipped automatically.
 Packages which are not useful for cross compilation because they only work on
 Windows are skipped, too.
 
-To get packages for 32 bit cross compilation (mingw64-i686-*),
-just run `python3 cyg2deb.py i686`.
+To get only certain packages for cross compilation,
+just run `python3 cyg2deb.py NAMEPATTERN`.
+NAMEPATTERN is a regular expression for the package name.
+Example: `python3 cyg2deb.py mingw64-i686-.*` will get only the 32 bit packages,
+while `python3 cyg2deb.py mingw64-x86_64-.*` will get only the 64 bit packages.

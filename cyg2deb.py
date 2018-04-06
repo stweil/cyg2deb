@@ -29,14 +29,9 @@ else:
 HOSTARCH = 'x86_64'
 
 if len(sys.argv) > 1:
-    ARCH = sys.argv[1]
+    PATTERN = sys.argv[1]
 else:
-    ARCH = 'x86_64'
-
-if len(sys.argv) > 2:
-    PATTERN = sys.argv[2]
-else:
-    PATTERN = 'mingw64-' + ARCH + '-.*'
+    PATTERN = 'mingw64-(i686|x86_64)-.*'
 
 CACHEDIR = 'cache' + '/' + HOSTARCH
 
@@ -101,7 +96,14 @@ class Package:
             f = tarfile.open(filename)
             f.extractall(tmpdir)
             f.close()
-            archdir = '/usr/' + ARCH + '-w64-mingw32'
+
+            m = re.search('^mingw64-(i686)-.*$', name)
+            if m:
+                arch = 'i686'
+            else:
+                arch = 'x86_64'
+
+            archdir = '/usr/' + arch + '-w64-mingw32'
             srcdir = tmpdir + archdir + '/sys-root/mingw/lib/pkgconfig'
             if os.path.exists(srcdir):
                 # Package uses pkg-config.
