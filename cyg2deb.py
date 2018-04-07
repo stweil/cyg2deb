@@ -162,6 +162,8 @@ class Package:
                                       'pkg-config-mingw-w64-i686')
             depends = depends.replace('mingw64-i686-runtime',
                                       'mingw-w64-i686-dev')
+            depends = depends.replace('mingw64-i686-winpthreads',
+                                      'mingw-w64-i686-dev')
             depends = depends.replace('mingw64-x86_64-gcc-core',
                                       'mingw-w64-x86-64-dev')
             depends = depends.replace('mingw64-x86_64-gcc-fortran',
@@ -171,6 +173,8 @@ class Package:
             depends = depends.replace('mingw64-x86_64-pkg-config',
                                       'pkg-config-mingw-w64-x86-64')
             depends = depends.replace('mingw64-x86_64-runtime',
+                                      'mingw-w64-x86-64-dev')
+            depends = depends.replace('mingw64-x86_64-winpthreads',
                                       'mingw-w64-x86-64-dev')
             depends = depends.replace('_', '-')
             depends = depends.replace(' ', ',')
