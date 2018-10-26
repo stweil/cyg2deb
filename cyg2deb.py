@@ -3,7 +3,6 @@
 # cyg2deb - convert Cygwin packages to Debian packages
 
 import getpass
-import glob
 import http.client
 import os
 import re
@@ -13,12 +12,10 @@ import sys
 import tarfile
 
 # TODO: allow selection of proxy server.
-if False:
-    PROXYSERVER = 'ftp.cygwin.com'
-    PROXYPATH = '/pub/cygwin/'
-else:
-    PROXYSERVER = 'ftp-stud.hs-esslingen.de'
-    PROXYPATH = '/pub/Mirrors/sources.redhat.com/cygwin/'
+# PROXYSERVER = 'ftp.cygwin.com'
+# PROXYPATH = '/pub/cygwin/'
+PROXYSERVER = 'ftp-stud.hs-esslingen.de'
+PROXYPATH = '/pub/Mirrors/sources.redhat.com/cygwin/'
 
 # TODO: get better default e-mail address.
 if os.getenv('EMAIL'):
@@ -120,7 +117,6 @@ class Package:
                 # Package does not use pkg-config.
                 # Make *.h and *.a file(s) available at the right location.
                 for dir in ['include', 'lib']:
-                    dstdir = os.path.join(tmpdir + archdir, dir)
                     libsrcdir = os.path.join(tmpdir + archdir, 'sys-root/mingw', dir)
                     for path, dirs, files in os.walk(libsrcdir):
                         for filename in files:
