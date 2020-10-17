@@ -174,6 +174,7 @@ class Package:
                                       'mingw-w64-x86-64-dev')
             depends = depends.replace('_', '-')
             depends = depends.replace(' ', ',')
+            depends = depends.lower()
             f.write('Depends: ' + depends + lf)
             f.write('Section: cygwin\n')
             f.write('Priority: extra\n')
